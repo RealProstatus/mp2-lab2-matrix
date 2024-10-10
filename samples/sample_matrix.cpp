@@ -11,13 +11,14 @@
 
 void main()
 {
-    TVector<int> a(5);
+    /*TVector<int> a(5);
     cin >> a;
     TVector<int> b(5);
-    b = a + 5;
+    b = a + 0;
     cout << b;
+    cout << (b == a);*/
 
-  /*TMatrix<int> a(5), b(5), c(5);
+  TMatrix<int> a(5), b(5), c(5);
   int i, j;
 
   setlocale(LC_ALL, "Russian");
@@ -32,6 +33,6 @@ void main()
   c = a + b;
   cout << "Matrix a = " << endl << a << endl;
   cout << "Matrix b = " << endl << b << endl;
-  cout << "Matrix c = a + b" << endl << c << endl;*/
+  cout << "Matrix c = a + b" << endl << c << endl;
 }
 //---------------------------------------------------------------------------
