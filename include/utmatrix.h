@@ -93,9 +93,9 @@ TVector<T>::~TVector()
 template <class T> // доступ к элементу 
 T& TVector<T>::operator[](int pos)
 {
-	if (pos < 0 || pos >= Size)
+	if ((pos-StartIndex) < 0 || (pos - StartIndex)s >= Size)
 		throw 2531;
-	return pVector[pos];
+	return pVector[pos-StartIndex];
 } /*-------------------------------------------------------------------------*/
 
 template <class T> // сравнение
@@ -103,7 +103,7 @@ bool TVector<T>::operator==(const TVector &v) const
 {
 	if (Size != v.Size) return false;
 	if (StartIndex != v.StartIndex) return false;
-	for (size_t i = 0; i< Size; i++)
+	for (int i = 0; i< Size; i++)
 	{
 		if (pVector[i] != v.pVector[i]) return false;
 	}
@@ -163,19 +163,33 @@ TVector<T> TVector<T>::operator*(const T &val)
 template <class T> // сложение
 TVector<T> TVector<T>::operator+(const TVector<T> &v)
 {
-	return *this;
+	if (Size != v.Size) throw 2531;
+	TVector<T> res = TVector<T>(Size, StartIndex);
+	for (int i = 0; i < Size; i++)
+		res.pVector[i] = pVector[i] + v.pVector[i];
+	return res;
+
 } /*-------------------------------------------------------------------------*/
 
 template <class T> // вычитание
 TVector<T> TVector<T>::operator-(const TVector<T> &v)
 {
-	return *this;
+	if (Size != v.Size) throw 2531;
+	TVector<T> res = TVector<T>(Size, StartIndex);
+	for (int i = 0; i < Size; i++)
+		res.pVector[i] = pVector[i] - v.pVector[i];
+	return res;
 } /*-------------------------------------------------------------------------*/
 
 template <class T> // скалярное произведение
 T TVector<T>::operator*(const TVector<T> &v)
 {
-	return pVector[0];
+	if(Size != v.Size0) throw 2531;
+	T res;
+	for (int i = 0; i < Size; i++) {
+		res += pVector[i] * v.pVector[i];
+	}
+	return res;
 } /*-------------------------------------------------------------------------*/
 
 
@@ -211,6 +225,8 @@ public:
 template <class T>
 TMatrix<T>::TMatrix(int s): TVector<TVector<T> >(s)
 {
+	for (int i = 0; i < Size; i++)
+		pVector[i] = TVector<T>(size - i, i);
 } /*-------------------------------------------------------------------------*/
 
 template <class T> // конструктор копирования
@@ -224,7 +240,8 @@ TMatrix<T>::TMatrix(const TVector<TVector<T> > &mt):
 template <class T> // сравнение
 bool TMatrix<T>::operator==(const TMatrix<T> &mt) const
 {
-	return true;
+	if (Size != mt.Size) return false;
+
 } /*-------------------------------------------------------------------------*/
 
 template <class T> // сравнение
