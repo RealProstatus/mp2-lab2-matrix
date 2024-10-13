@@ -65,8 +65,8 @@ TVector<T>::TVector(int s, int si)
 	if (s<0 || s > MAX_VECTOR_SIZE)
 		throw 2531;
 	Size = s;
-	//if (si < 0 || si >= Size)
-	//	throw 2531;	
+	if (si < 0)
+		throw 2531;	
 	StartIndex = si;
 	pVector = new T[Size];
 
@@ -184,8 +184,8 @@ TVector<T> TVector<T>::operator-(const TVector<T> &v)
 template <class T> // скалярное произведение
 T TVector<T>::operator*(const TVector<T> &v)
 {
-	if(Size != v.Size0) throw 2531;
-	T res;
+	if(Size != v.Size) throw 2531;
+	T res = 0;
 	for (int i = 0; i < Size; i++) {
 		res += pVector[i] * v.pVector[i];
 	}
@@ -225,6 +225,8 @@ public:
 template <class T>
 TMatrix<T>::TMatrix(int s): TVector<TVector<T> >(s)
 {
+	if (s > MAX_MATRIX_SIZE)
+		throw 2531;
 	for (int i = 0; i < Size; i++) {
 		pVector[i] = TVector<T>(Size - i, i);
 	}
